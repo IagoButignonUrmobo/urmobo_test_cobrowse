@@ -1,0 +1,56 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '12.0'
+
+# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+def flutter_root
+  generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
+  unless File.exist?(generated_xcode_build_settings_path)
+    raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first"
+  end
+
+  File.foreach(generated_xcode_build_settings_path) do |line|
+    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    return matches[1].strip if matches
+  end
+  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
+end
+
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+flutter_ios_podfile_setup
+
+target 'remote' do
+  use_frameworks!
+
+  pod 'CobrowseIO/Extension', '~>2'
+end
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  pod 'CobrowseIO', '~>2'
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+end
+
+post_install do |installer|
+  target = 'remote'
+  aggregate_target = installer.aggregate_targets.find { |aggregate_target| aggregate_target.name == "Pods-#{target}" }
+  aggregate_target.xcconfigs.each do |config_name, config_file|
+    config_file.frameworks.delete('CobrowseIOAppExtension')
+    xcconfig_path = aggregate_target.xcconfig_path(config_name)
+    config_file.save_as(xcconfig_path)
+  end
+
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+  end
+end
