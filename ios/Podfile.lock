@@ -1,8 +1,8 @@
 PODS:
-  - CobrowseIO (2.25.0):
-    - CobrowseIO/XCFramework (= 2.25.0)
-  - CobrowseIO/Extension (2.25.0)
-  - CobrowseIO/XCFramework (2.25.0)
+  - CobrowseIO (2.27.0):
+    - CobrowseIO/XCFramework (= 2.27.0)
+  - CobrowseIO/Extension (2.27.0)
+  - CobrowseIO/XCFramework (2.27.0)
   - Flutter (1.0.0)
 
 DEPENDENCIES:
@@ -19,9 +19,9 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  CobrowseIO: bb47a12f2c751273aeef6ad4d1b59520499c9811
+  CobrowseIO: 4723d90a4493b782e9c011fef887c13a5db0a596
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
 
 PODFILE CHECKSUM: 429a9d25b52c5937edabeb7d38dbddc6528e8b84
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.0
